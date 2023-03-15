@@ -41,8 +41,7 @@
 		 $( "button.btn.btn-primary" ).on("click" , function() {
 			//Debug..
 			//alert(  $( "td.ct_btn01:contains('ºˆ¡§')" ).html() );
-			document.detailForm.action='/purchase/updatePurchase';
-			document.detailForm.submit();
+			 $("form").attr("method" , "POST").attr("action" , "/purchase/updatePurchase").submit();
 		});
 		
 		 $( "a[href='#' ]" ).on("click" , function() {
@@ -127,17 +126,10 @@
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">πËº€»Ò∏¡¿œ¿⁄</label>
 		    <div class="col-sm-4">
-		      <input type="date" name="divyDate" class="form-control" value="${purchase.divyDate"}"/>
+		   
+		      <input type="date" name="divyDate" class="form-control" value="${purchase.divyDate}"/>
 		    </div>
 		  </div>
-		  
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td width="200" class="ct_write01">
-			<input type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20"/>
-				<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
-							onclick="show_calendar('document.updatePurchase.divyDate', document.updatePurchase.divyDate.value)"/>
-		</td>
 		
 		
 		  <div class="form-group">

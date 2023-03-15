@@ -50,7 +50,7 @@
 		//document.getElementById("currentPage").value = currentPage;
 		$("#currentPage").val(currentPage)
 		//document.detailForm.submit();
-		$("form").attr("method","POST").attr("href", "/product/listProduct?menu=manage").submit();
+		$("form").attr("method","POST").attr("href", "/purchase/listPurchase").submit();
 	}
 	//===========================================//
 	

@@ -170,6 +170,11 @@ public class PurchaseController {
 		System.out.println("/purchase/updatePurchase : GET");
 		
 		Purchase purchase = purchaseService.getPurchase(tranNo);
+		
+		if (purchase.getDivyDate() != null && purchase.getDivyDate() != "") {
+			purchase.setDivyDate(purchase.getDivyDate().substring(0,10));
+		}
+
 		//Model °ú View ¿¬°á
 		model.addAttribute("purchase", purchase);
 		

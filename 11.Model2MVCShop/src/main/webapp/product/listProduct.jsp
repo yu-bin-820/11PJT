@@ -62,9 +62,9 @@
 			fncGetProductList(1);
 		});
 		
-		$( "button.btn.btn-danger").on("click", function(){
-			self.location = "/purchase/updateTranCodeByProd?prodNo="+$(this).children('input:hidden').val()+"&tranCode=2"
-		});
+		//$( "button.btn.btn-danger").on("click", function(){
+		//	self.location = "/purchase/json/updateTranCodeByProd?prodNo="+$(this).children('input:hidden').val()+"&tranCode=2"
+		//});
 		
 		//==> userId LINK Event 연결처리
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -75,6 +75,36 @@
 				self.location ="/product/updateProduct?prodNo="+$(this).children('input:hidden').val();
 				
 		});
+		
+		//============= productNo 에 회원정보보기  Event  처리 (double Click)=============
+		 $(function() {
+			 
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "button.btn.btn-danger").on("click" , function() {
+
+					var prodNo = $(this).children('input:hidden').val()
+					$(this).remove();
+					$.ajax( 
+							{
+								url : "/purchase/json/updateTranCodeByProd?prodNo="+prodNo+"&tranCode=2" ,
+								method : "GET" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function() {
+									alert("!!");
+									
+									//$( "#"+prodNo+"" ).html(displayValue);
+								}
+						});
+					
+			});
+			
+		
+		});	
+		////////////////////////////////////////////////////////////////
+		
 		
 		$( "td:nth-child(2)" ).css("color" , "red");
 		
@@ -168,6 +198,47 @@
 		   
 		    
 	});
+	 
+		//============= productNo 에 회원정보보기  Event  처리 (double Click)=============
+	 $(function() {
+		 
+		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		$(  "td:nth-child(6) > i" ).on("click" , function() {
+
+				var prodNo = $(this).next().val();
+			
+				$.ajax( 
+						{
+							url : "/product/json/getProduct/"+prodNo ,
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData , status) {
+
+								var displayValue = "<h6>"
+															+"상품명 : "+JSONData.prodName+"<br/>"
+															+"상세정보 : "+JSONData.prodDetail+"<br/>"
+															+"제조일자 : "+JSONData.manuDate+"<br/>"
+															+"가격 : "+JSONData.price+"<br/>"
+															+"</h6>";
+								$("h6").remove();
+								$( "#"+prodNo+"" ).html(displayValue);
+							}
+					});
+					////////////////////////////////////////////////////////////////////////////////////////////
+				
+		});
+		
+		//==> userId LINK Event End User 에게 보일수 있도록 
+		$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
+		$("h7").css("color" , "red");
+		
+		//==> 아래와 같이 정의한 이유는 ??
+		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+	});	
 	</script>
 </head>
 
@@ -252,7 +323,7 @@
 				</td>
 				<td align="Left">${product.price}</td>
 				<td align="Left">${product.regDate}</td>
-				<td align="Left">
+				<td align="Left" id='proTranCode'>
 				<c:choose>
 					<c:when test= "${product.proTranCode=='0'||product.proTranCode==null}">
 					판매중

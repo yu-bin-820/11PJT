@@ -39,7 +39,7 @@
 	 $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-		 $( "td.ct_btn01:contains('확인')" ).on("click" , function() {
+		 $( "button.btn.btn-primary"  ).on("click" , function() {
 			//Debug..
 			//alert(  "button.btn.btn-primary" ).html() );
 			self.location = "/product/listProduct?menu=manage"
@@ -105,7 +105,7 @@
 		
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >확&nbsp;인</button>
+		      <button type="button" class="btn btn-primary"  >확 &nbsp;인</button>
 			  <a class="btn btn-primary btn" href="#" role="button">추가등록</a>
 		    </div>
 		  </div>

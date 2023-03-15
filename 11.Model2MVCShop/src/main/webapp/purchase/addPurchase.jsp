@@ -39,16 +39,16 @@
 	 $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-		 $( "td.ct_btn01:contains('구매목록 확인')" ).on("click" , function() {
+		 $( "button.btn.btn-primary" ).on("click" , function() {
 			//Debug..
 			//alert(  "button.btn.btn-primary" ).html() );
-			self.location = "/product/listProduct?menu=manage"
+			self.location = "/purchase/listPurchase"
 		});
 		
 		 $( "a[href='#' ]" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('추가구매')" ).html() );
-				self.location = "../product/addProductView.jsp"
+				self.location = "/product/listProduct?menu=search"
 			});
 	});
 	
@@ -121,7 +121,8 @@
 			<div class="col-xs-8 col-md-4">${ purchase.divyDate}</div>
 		</div>
 		
-		<hr/>
+		<br/>
+		<br/>
 		
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
@@ -129,6 +130,8 @@
 			  <a class="btn btn-primary btn" href="#" role="button">추가구매</a>
 		    </div>
 		  </div>
+		  <br/>
+		  <br/>
 		</form>
 		<!-- form end /////////////////////////////////////-->
 		

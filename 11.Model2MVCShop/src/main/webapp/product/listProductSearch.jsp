@@ -50,9 +50,21 @@
 		$("#currentPage").val(currentPage)
 		//document.detailForm.submit();
 		$('form').attr("method","POST").attr("href", "/product/listProduct?menu=search").submit();
+		
 	}
+	
+	
+	//============= "검색"  Event  처리 =============	
+	 $(function() {
+		 //==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 $( "button.btn.btn-default" ).on("click" , function() {
+			fncGetProductList(1);
+		});
+	 });
+	
+	
 	//===========================================//
-	//==> 추가된부분 : "검색" , link  Event 연결 및 처리
+	//==> 추가된부분 : "상세보기, 구매" , link  Event 연결 및 처리
 
 	$(function(){
 		
@@ -67,7 +79,7 @@
 		});
 		
 		//==> 3 과 1 방법 조합 : $(".className tagName:filter함수") 사용함.
-		$( ".btn-default").on("click" , function() {
+		$( ".btn-info").on("click" , function() {
 				//Debug..
 				//alert(  $( this ).text().trim() );
 				self.location ="/purchase/addPurchase?prodNo="+$(this).children('input:hidden').val();
@@ -76,6 +88,23 @@
 		
 	})
 	
+	
+	/////////////썸네일크기고정/////////////
+	function equalHeight(group) {    
+	    var tallest = 0;    
+	    group.each(function() {       
+	        var thisHeight = $(this).height();       
+	        if(thisHeight > tallest) {          
+	            tallest = thisHeight;       
+	        }    
+	    });    
+	    group.each(function() { $(this).height(tallest); });
+	} 
+	
+	$(function(){
+		equalHeight($('.thumbnail'))
+	})
+	////////////////////////////////////////autocomplete
 	 $( function() {
 		    var availableTags = null;
 		    $.ajax(
@@ -115,7 +144,7 @@
 	
 $(function(){
 	$(document).scroll(function() {
-		if($(document).scrollTop() + $(window).height() > $(document).height()) { 
+		if($(document).scrollTop() + $(window).height() +3 > $(document).height()) { 
 			search.currentPage++;
 				testAjax(); //ajax 호출
 		}
@@ -142,30 +171,91 @@ $(function(){
             });
             // 성공
             function successCallback(JSONData) {
-                $.each(JSONData, function(index, product){
-                	$('.row').eq(1).append(		
-                			'<div class="col-sm-6 col-md-4">'
-            				+'<div class="thumbnail">'
-              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
-              				+'<div class="caption">'
-                			+'<h3>'+product.prodName+'</h3>'
-                			+'<p>'+product.price+'</p>'
-                			+'<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a>'
-                			+'<a href="#" class="btn btn-default" role="button">결   제<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a></p>'
-              				+'</div>'
-            				+'</div>'
-          					+'</div>'
-                			
-                	)
-                })
                 
-        		$( ".btn-primary").on("click" , function() {
-    				//Debug..
-    				//alert(  $( this ).text().trim() );
-    				self.location ="/product/getProduct?prodNo="+$(this).children('input:hidden').val();
-    				
-    		});
-   
+                if('${user.role}'=='admin') {
+                	
+	            	$.each(JSONData, function(index, product){
+	            		if('${product.proTranCode}'=='0'||'${product.proTranCode}'=='') {
+	                		$('.row').eq(1).append(		
+	                			'<div class="col-sm-6 col-md-4">'
+	            				+'<div class="thumbnail">'
+	              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
+	              				+'<div class="caption">'
+	                			+'<h3>'+product.prodName+'</h3>'
+	                			+'<h3>판매중</h3>'
+	                			+'<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a>'
+	              				+'</div>'
+	            				+'</div>'
+	          					+'</div>'
+	                		)
+	            		}else {
+		                	$('.row').eq(1).append(		
+		                			'<div class="col-sm-6 col-md-4">'
+		            				+'<div class="thumbnail">'
+		              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
+		              				+'<div class="caption">'
+		                			+'<h3>'+product.prodName+'</h3>'
+		                			+'<h3>판매완료</h3>'
+		                			+'<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a>'
+		              				+'</div>'
+		            				+'</div>'
+		          					+'</div>'
+		          				)
+	            		}
+	            	})
+                }  else {
+                	
+	            	$.each(JSONData, function(index, product){
+
+	            		if ('${product.proTranCode}'=='1'||'${product.proTranCode}'=='2'||'${product.proTranCode}'=='3'){
+	    	                	$('.row').eq(1).append(		
+	    	                			'<div class="col-sm-6 col-md-4">'
+	    	            				+'<div class="thumbnail">'
+	    	              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
+	    	              				+'<div class="caption">'
+	    	                			+'<h3>'+product.prodName+'</h3>'
+	    	                			+'<p>재고 없음</p>'
+	    	                			+'</div>'
+	    	            				+'</div>'
+	    	          					+'</div>'
+	          					)
+	            		}else{
+	                		$('.row').eq(1).append(		
+	                			'<div class="col-sm-6 col-md-4">'
+	            				+'<div class="thumbnail">'
+	              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
+	              				+'<div class="caption">'
+	                			+'<h3>'+product.prodName+'</h3>'
+	                			+'<h3>판매중</h3>'
+	                			+'<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a>'
+	                			+'<a href="#" class="btn btn-info" role="button">구   매<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a></p>'
+	              				+'</div>'
+	            				+'</div>'
+	          					+'</div>'
+	          				)
+	            		}
+                
+                	})
+                }
+	          					
+            	
+            	
+				$( ".btn-primary").on("click" , function() {
+					//Debug..
+					//alert(  $( this ).text().trim() );
+					self.location ="/product/getProduct?prodNo="+$(this).children('input:hidden').val();
+				
+				});
+		
+				//==> 3 과 1 방법 조합 : $(".className tagName:filter함수") 사용함.
+				$( ".btn-info").on("click" , function() {
+					//Debug..
+					//alert(  $( this ).text().trim() );
+					self.location ="/purchase/addPurchase?prodNo="+$(this).children('input:hidden').val();
+				
+				});
+            	
+            		equalHeight($('.thumbnail'))
             }
             
             // 실패
@@ -233,7 +323,8 @@ $(function(){
 
 
       <!--  table Start /////////////////////////////////////-->
-
+      
+   	<c:if test="${user.role== 'admin'}">
 		<div class="row">
 		<c:set var="i" value="0" />
 		<c:forEach var="product" items="${list}">
@@ -243,30 +334,56 @@ $(function(){
       		<div class="caption">
         	<h3>${product.prodName}</h3>
         	
-        	<p>${product.price}</p>
+				<c:choose>
+					<c:when test= "${product.proTranCode=='0'}">
+						판매중
+					</c:when>
+					<c:when test= "${product.proTranCode=='1'}">
+						구매완료 	
+					</c:when>
+					<c:when test= "${product.proTranCode=='2' }">
+						배송중
+					</c:when>
+					<c:when test= "${product.proTranCode=='3'}">
+						배송완료
+					</c:when>
+				</c:choose>
+        	
         	<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = 'hidden' id= "prodNo" name = 'prodNo' value='${product.prodNo}'/></a> 
-        	<a href="#" class="btn btn-default" role="button">구   매<input type = 'hidden' id= "prodNo" name = 'prodNo' value='${product.prodNo}'/></a></p>
       	</div>
     	</div>
   		</div>
-  		<%--
-			<c:set var="i" value="${i+1}" />
-			<tr>
-				<td align="center">${i}</td>
-				<td align="Left" title="Click : 상품정보 확인">
-				<input type = 'hidden' id= "prodNo" name = 'prodNo' value='${product.prodNo}'/>
-				<!-- ////////////////// jQuery Event 처리로 변경됨 /////////////////////////
-				<a href="/product/updateProduct?prodNo=${product.prodNo}">${product.prodName }</a>
-				////////////////////////////////////////////////////////////////////////////////////////////////// -->
-				${product.prodName}
-				</td>
-				<td align="Left">${product.price}</td>
-				<td align="Left">${product.regDate}</td>
-				<td align="Left">판매중	</td>
-			</tr>
-		 --%>
 		</c:forEach>
-</div>
+		</div>
+	</c:if>	
+	
+	<c:if test="${user.role== 'user'}">
+		<div class="row">
+		<c:set var="i" value="0" />
+		<c:forEach var="product" items="${list}">
+		<div class="col-sm-6 col-md-4">
+    		<div class="thumbnail">
+      		<img src="/images/uploadFiles/${product.fileName}"/>
+      		<div class="caption">
+        	<h3>${product.prodName}</h3>
+        	
+        	<c:choose>
+				<c:when test= "${product.proTranCode=='0'|| product.proTranCode==null}">
+        			<p>${product.price}원</p>
+        			<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = 'hidden' id= "prodNo" name = 'prodNo' value='${product.prodNo}'/></a> 
+        			<a href="#" class="btn btn-info" role="button">구   매<input type = 'hidden' id= "prodNo" name = 'prodNo' value='${product.prodNo}'/></a></p>
+        		</c:when>
+				<c:otherwise>
+					<p>재고 없음</p>
+				</c:otherwise>
+			</c:choose>
+			
+      	</div>
+    	</div>
+  		</div>
+		</c:forEach>
+		</div>
+	</c:if>	
       
 	  <!--  table End /////////////////////////////////////-->
 	  

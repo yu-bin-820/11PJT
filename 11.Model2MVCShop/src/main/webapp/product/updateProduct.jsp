@@ -65,8 +65,7 @@
 				return;
 			}
 		
-			document.detailForm.action='/product/updateProduct';
-			document.detailForm.submit();
+			 $("form").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
 		}
 			
 			$(function() {

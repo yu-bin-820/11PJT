@@ -163,6 +163,8 @@ public class ProductController {
 		System.out.println("/updateProductView");
 		
 		Product product = productService.findProduct(Integer.parseInt(prodNo));
+		String manuDate = product.getManuDate();
+		product.setManuDate(manuDate.substring(0, 4)+"-"+manuDate.substring(4, 6)+"-"+manuDate.substring(6));
 		//Model °ú View ¿¬°á
 		model.addAttribute("product", product);
 		
