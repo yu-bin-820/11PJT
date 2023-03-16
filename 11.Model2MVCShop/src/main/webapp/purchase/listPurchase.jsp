@@ -86,15 +86,40 @@
 				
 		});
 		
+		//============= 물건도착 butten ajax  Event  처리 (double Click)=============
+		 $(function() {
+			 
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$( "button.btn.btn-danger").on("click" , function() {
+					var tranNo = $(this).children('input:hidden').val()
+						$(this).remove();
+					$.ajax( 
+							{
+								url : "/purchase/json/updateTranCode?tranNo="+tranNo+"&tranCode=3" ,
+								method : "GET" ,
+								headers : {
+									"Accept" : "application/json",
+									"Content-Type" : "application/json"
+								},
+								success : function() {
+									isdeliverystart = true;
+									$("#tranNo"+tranNo+"").remove();
+									$("#newTranNo"+tranNo+"").append(
+											'<p>현재 배송완료 상태입니다.</p>');
+									//$( "#"+prodNo+"" ).html(displayValue);
+								}
+						});
+
+					
+			});
+			
+		
+		});	
+		
 		//==> updateTranCode LINK Event 연결처리
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		//==> 3 과 1 방법 조합 : $(".className tagName:filter함수") 사용함.
-		$( ".ct_list_pop td:nth-child(6)" ).on("click" , function() {
-				//Debug..
-				//alert(  $( this ).text().trim() );
-			self.location ="/purchase/updateTranCode?tranNo="+$(this).children('input:hidden').val()+"&tranCode=3";
-				
-		});
+
 	});
 </script>
 </head>
@@ -116,7 +141,8 @@
 	    <div class="row">
 	    
 		    <div class="col-md-6 text-left">
-		    	<p class="text-primary">
+		    	<p class="text-primary">				  
+		    	<input type="hidden" id="currentPage" name="currentPage" value=""/>
 				전체 ${ resultPage.totalCount} 건수, 현재 ${ resultPage.currentPage} 페이지		    	</p>
 		    </div>
 		    
@@ -148,21 +174,25 @@
 				<td align="left">${purchase.receiverName}</td>
 				<td align="left">${purchase.receiverPhone}</td>
 				<td align="left">
+				<p id='tranNo${purchase.tranNo}'>
 				현재	
 				<c:choose>
 					<c:when test="${purchase.tranCode == '1' }">
-						구매완료 상태입니다.</td>
+						구매완료 상태입니다.</p></td>
 						<td></td>
 					</c:when>
 					<c:when test="${purchase.tranCode == '2' }">
-						배송중 상태입니다.</td>
+						배송중 상태입니다.</p>
+						<p id='newTranNo${purchase.tranNo}'></td>
 						<td>
+						<button class="btn btn-danger">
 						<input type= 'hidden' id="tranNo" name="tranNo" value='${purchase.tranNo}'/>
 						물건도착
+						</button>
 						</td>
 					</c:when>
 					<c:when test="${purchase.tranCode == '3' }">
-						배송완료 상태입니다.</td>
+						배송완료 상태입니다.</p></td>
 						<td></td>
 					</c:when>
 				</c:choose>  	

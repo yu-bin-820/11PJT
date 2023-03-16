@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ page pageEncoding="EUC-KR"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 
@@ -39,11 +40,17 @@
 	 $(function() {
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-		 $( "button.btn.btn-primary" ).on("click" , function() {
+		 $( "#addPurchase" ).on("click" , function() {
 			//Debug..
 			//alert(  $( "td.ct_btn01:contains('구매')" ).html() );
 			self.location = "/purchase/addPurchase?prodNo=${product.prodNo}"
 		});
+		
+		 $( "#updateProduct" ).on("click" , function() {
+				//Debug..
+				//alert(  $( "td.ct_btn01:contains('구매')" ).html() );
+				self.location = "/product/updateProduct?prodNo=${product.prodNo}"
+			});
 		
 		 $( "a[href='#' ]" ).on("click" , function() {
 				//Debug..
@@ -111,15 +118,20 @@
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>가입일자</strong></div>
-			<div class="col-xs-8 col-md-4">${user.regDate}</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>등록일자</strong></div>
+			<div class="col-xs-8 col-md-4">${product.regDate}</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >구 &nbsp;매</button>
+		    <c:if test="${user.role== 'user'}">
+		    	<button type="button" class="btn btn-primary" id='addPurchase' >구 &nbsp;매</button>
+		    </c:if>
+		    <c:if test="${user.role== 'admin'}">
+   				<button type="button" class="btn btn-primary"  id='updateProduct'>상품정보 수정</button>
+		    </c:if>
 			  <a class="btn btn-primary btn" href="#" role="button">확&nbsp;인</a>
 		    </div>
 		  </div>

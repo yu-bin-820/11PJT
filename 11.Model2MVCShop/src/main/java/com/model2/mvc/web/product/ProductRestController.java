@@ -100,12 +100,20 @@ public class ProductRestController {
 	}
 	
 	
-	@RequestMapping( value="json/autocompleteProduct" , method=RequestMethod.GET)
-	public List autocompleteProduct() throws Exception{
+	@RequestMapping( value="json/autocompleteProduct/{searchCondition}" , method=RequestMethod.GET)
+	public List autocompleteProduct(@PathVariable int searchCondition) throws Exception{
 	
 		System.out.println("/product/json/autocompleteProduct : GET");
 		//Business Logic
-		List<String> list =productService.autocompleteProduct();
+		List<String> list = null;
+		if(searchCondition == 0 ) {
+			list =productService.autocompleteProductNo();
+		}else if(searchCondition ==  1) {
+			list =productService.autocompleteProductName();
+		}else if(searchCondition == 2) {
+			list =productService.autocompleteProductPrice();
+		}
+		
 		System.out.println(list);
 		return list;
 	}

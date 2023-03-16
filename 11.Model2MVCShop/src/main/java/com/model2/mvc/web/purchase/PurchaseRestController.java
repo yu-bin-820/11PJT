@@ -85,7 +85,7 @@ public class PurchaseRestController {
 //	}
 	
 	@RequestMapping( value="json/updateTranCodeByProd", method=RequestMethod.GET )
-	public void updateProduct(	@RequestParam("prodNo") int prodNo, 
+	public void updateTranCodeByProd(	@RequestParam("prodNo") int prodNo, 
 								@RequestParam("tranCode") String tranCode ) throws Exception{
 	
 		System.out.println("/product/json/updateTranCodeByProd : GET");
@@ -96,6 +96,21 @@ public class PurchaseRestController {
 		purchase.setPurchaseProd(productService.findProduct(prodNo));
 		//Business Logic
 		purchaseService.updateTranCodeByProd(purchase);
+		
+	}
+	
+	@RequestMapping( value="json/updateTranCode", method=RequestMethod.GET )
+	public void updateTranCode(	@RequestParam("tranNo") int tranNo, 
+								@RequestParam("tranCode") String tranCode ) throws Exception{
+	
+		System.out.println("/product/json/updateTranCode : GET");
+		
+		
+		Purchase purchase = new Purchase();
+		purchase.setTranCode(tranCode);
+		purchase.setTranNo(tranNo);
+		//Business Logic
+		purchaseService.updateTranCode(purchase);
 		
 	}
 	

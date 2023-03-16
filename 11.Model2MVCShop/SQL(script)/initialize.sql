@@ -138,6 +138,19 @@ insert into product values (seq_product_prod_no.nextval,'인라인','좋아욥','20120
 insert into product values (seq_product_prod_no.nextval,'삼성센스 2G','sens 메모리 2Giga','20121121',800000, 'AHlbAAAAtBqyWAAA.jpg',to_date('2012/11/14 18:46:58', 'YYYY/MM/DD HH24:MI:SS'));
 insert into product values (seq_product_prod_no.nextval,'연꽃','정원을 가꿔보세요','20121022',232300, 'AHlbAAAAtDPSiQAA.jpg',to_date('2012/11/15 17:39:01', 'YYYY/MM/DD HH24:MI:SS'));
 insert into product values (seq_product_prod_no.nextval,'삼성센스','노트북','20120212',600000, 'AHlbAAAAug1vsgAA.jpg',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(1cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(2cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(3cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(4cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(5cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(6cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(7cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(8cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(9cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(10cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(11cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(12cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
+insert into product values (seq_product_prod_no.nextval,'자(13cm)','했죠','20120212',1230000, '99AF1C355EE62F3925.png',to_date('2012/11/12 13:04:31', 'YYYY/MM/DD HH24:MI:SS'));
 
 
 commit;

@@ -62,9 +62,19 @@ public class ProdcutDaoImpl implements ProductDao {
 		return null;
 	}
 	
-	public List<String> autocompleteProduct() throws Exception {
+	public List<String> autocompleteProductName() throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("ProductMapper.autocompleteProduct");
+		return sqlSession.selectList("ProductMapper.autocompleteProductName");
+	}
+	
+	public List<String> autocompleteProductNo() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("ProductMapper.autocompleteProductNo");
+	}
+	
+	public List<String> autocompleteProductPrice() throws Exception {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("ProductMapper.autocompleteProductPrice");
 	}
 
 }

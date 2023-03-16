@@ -19,6 +19,10 @@ public interface ProductDao {
 	
 	public String makeCurrentPageSql(String sql , Search search) throws Exception ;
 	
-	public List<String> autocompleteProduct() throws Exception;
+	public List<String> autocompleteProductName() throws Exception;
+	
+	public List<String> autocompleteProductNo() throws Exception;
+	
+	public List<String> autocompleteProductPrice() throws Exception;
 	
 }

@@ -100,10 +100,21 @@
 						</if> ) countTable						
 	 </select>
 	 
-	 <select  id="autocompleteProduct" 	resultType="String">
+	 <select  id="autocompleteProductName" 	resultType="String">
 	  	SELECT PROD_NAME
 	  	FROM product
 		ORDER BY PROD_NAME
 	 </select>
 	 
+	 <select  id="autocompleteProductNo" 	resultType="String">
+	  	SELECT PROD_NO
+	  	FROM product
+		ORDER BY PROD_NO
+	 </select>
+	 
+	 <select  id="autocompleteProductPrice" 	resultType="String">
+	  	SELECT PRICE
+	  	FROM product
+		ORDER BY PRICE
+	 </select>
 </mapper>

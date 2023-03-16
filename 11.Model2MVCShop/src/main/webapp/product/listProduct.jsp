@@ -76,14 +76,14 @@
 				
 		});
 		
-		//============= productNo 에 회원정보보기  Event  처리 (double Click)=============
+		//============= 배송하기 butten ajax  Event  처리 (double Click)=============
 		 $(function() {
 			 
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$( "button.btn.btn-danger").on("click" , function() {
 
 					var prodNo = $(this).children('input:hidden').val()
-					$(this).remove();
+						$(this).remove();
 					$.ajax( 
 							{
 								url : "/purchase/json/updateTranCodeByProd?prodNo="+prodNo+"&tranCode=2" ,
@@ -93,11 +93,14 @@
 									"Content-Type" : "application/json"
 								},
 								success : function() {
-									alert("!!");
-									
+									isdeliverystart = true;
+									$("#proTranCode"+prodNo+"").remove();
+									$("#newProTranCode"+prodNo+"").append(
+											'<p>배송중</p>');
 									//$( "#"+prodNo+"" ).html(displayValue);
 								}
 						});
+
 					
 			});
 			
@@ -170,16 +173,18 @@
 			
 	});
 		
-		//==> UI 수정 추가부분  :  userId LINK Event End User 에게 보일수 있도록 
+		//==> UI 수정 추가부분  :  LINK Event End User 에게 보일수 있도록 
 		$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
 
 
-	
+////////////////////////////////////////autocomplete//////////////////////////	
 	 $( function() {
+		 
 		    var availableTags = null;
+		  
 		    $.ajax(
 					{
-						url : "/product/json/autocompleteProduct",
+						url : "/product/json/autocompleteProduct/0",
 						method : "GET" ,
 						dataType : "json" ,
 						headers : {
@@ -196,10 +201,30 @@
 					}
 			);
 		   
+		    $('#searchCondition').on('change', function(){
+		    	$.ajax(
+						{
+							url : "/product/json/autocompleteProduct/"+$('#searchCondition').val(),
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData, status) {
+								//alert(JSON.stringify(JSONData));
+								availableTags=JSONData;
+								$( "#searchKeyword" ).autocomplete({
+								      source: availableTags
+							    });
+							}
+						}
+				);
+		    }) 
 		    
 	});
 	 
-		//============= productNo 에 회원정보보기  Event  처리 (double Click)=============
+		//============= productNo 에 정보보기  Event  처리 (double Click)=============
 	 $(function() {
 		 
 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -268,7 +293,7 @@
 			    <form class="form-inline" name="detailForm">
 			    
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
+				    <select class="form-control" name="searchCondition" id="searchCondition">
 				    	<option value="0" ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>
 						<option value="1" ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
 						<option value="2" ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>상품가격</option>
@@ -323,7 +348,8 @@
 				</td>
 				<td align="Left">${product.price}</td>
 				<td align="Left">${product.regDate}</td>
-				<td align="Left" id='proTranCode'>
+				<td align="Left" >
+				<p id='proTranCode${product.prodNo}'>
 				<c:choose>
 					<c:when test= "${product.proTranCode=='0'||product.proTranCode==null}">
 					판매중
@@ -331,7 +357,7 @@
 					<c:when test= "${product.proTranCode=='1'}">
 						구매완료 
 						<button class="btn btn-danger">
-							<input type = 'hidden' id= "prodNo" name = 'prodNo' value='${product.prodNo}'/>
+							<input type = 'hidden' id= "${product.prodNo}" name = 'prodNo' value='${product.prodNo}'/>
 							배송하기
 						</button>		
 					</c:when>
@@ -342,6 +368,8 @@
 					배송완료
 					</c:when>
 				</c:choose>
+				</p>
+				<p id='newProTranCode${product.prodNo}'/>
 				</td>
 				<td align="left">
 			  	<i class="glyphicon glyphicon-ok" id= "${product.prodNo}"></i>

@@ -38,6 +38,11 @@
 	  body {
             padding-top : 50px;
         }
+        
+      img {
+      	min-height: 200px;
+      	width: 200px;
+      }
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
@@ -104,12 +109,14 @@
 	$(function(){
 		equalHeight($('.thumbnail'))
 	})
-	////////////////////////////////////////autocomplete
+////////////////////////////////////////autocomplete//////////////////////////	
 	 $( function() {
+		 
 		    var availableTags = null;
+		  
 		    $.ajax(
 					{
-						url : "/product/json/autocompleteProduct",
+						url : "/product/json/autocompleteProduct/0",
 						method : "GET" ,
 						dataType : "json" ,
 						headers : {
@@ -126,6 +133,26 @@
 					}
 			);
 		   
+		    $('#searchCondition').on('change', function(){
+		    	$.ajax(
+						{
+							url : "/product/json/autocompleteProduct/"+$('#searchCondition').val(),
+							method : "GET" ,
+							dataType : "json" ,
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData, status) {
+								//alert(JSON.stringify(JSONData));
+								availableTags=JSONData;
+								$( "#searchKeyword" ).autocomplete({
+								      source: availableTags
+							    });
+							}
+						}
+				);
+		    }) 
 		    
 	});
 	
@@ -175,14 +202,15 @@ $(function(){
                 if('${user.role}'=='admin') {
                 	
 	            	$.each(JSONData, function(index, product){
-	            		if('${product.proTranCode}'=='0'||'${product.proTranCode}'=='') {
+	            		
+	            		if(product.proTranCode=='0'||product.proTranCode=='') {
 	                		$('.row').eq(1).append(		
 	                			'<div class="col-sm-6 col-md-4">'
 	            				+'<div class="thumbnail">'
 	              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
 	              				+'<div class="caption">'
 	                			+'<h3>'+product.prodName+'</h3>'
-	                			+'<h3>판매중</h3>'
+	                			+'<p>판매중</p>'
 	                			+'<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a>'
 	              				+'</div>'
 	            				+'</div>'
@@ -195,7 +223,7 @@ $(function(){
 		              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
 		              				+'<div class="caption">'
 		                			+'<h3>'+product.prodName+'</h3>'
-		                			+'<h3>판매완료</h3>'
+		                			+'<p>판매완료</p>'
 		                			+'<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a>'
 		              				+'</div>'
 		            				+'</div>'
@@ -207,7 +235,7 @@ $(function(){
                 	
 	            	$.each(JSONData, function(index, product){
 
-	            		if ('${product.proTranCode}'=='1'||'${product.proTranCode}'=='2'||'${product.proTranCode}'=='3'){
+	            		if (product.proTranCode=='1'||product.proTranCode=='2'||product.proTranCode=='3'){
 	    	                	$('.row').eq(1).append(		
 	    	                			'<div class="col-sm-6 col-md-4">'
 	    	            				+'<div class="thumbnail">'
@@ -226,9 +254,9 @@ $(function(){
 	              				+'<img src="/images/uploadFiles/'+product.fileName+'"/>'
 	              				+'<div class="caption">'
 	                			+'<h3>'+product.prodName+'</h3>'
-	                			+'<h3>판매중</h3>'
+	                			+'<p>'+product.price+'원</p>'
 	                			+'<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a>'
-	                			+'<a href="#" class="btn btn-info" role="button">구   매<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a></p>'
+	                			+'&nbsp;<a href="#" class="btn btn-info" role="button">구   매<input type = "hidden" id= "prodNo" name = "prodNo" value="'+product.prodNo+'"/></a></p>'
 	              				+'</div>'
 	            				+'</div>'
 	          					+'</div>'
@@ -236,10 +264,8 @@ $(function(){
 	            		}
                 
                 	})
+            	
                 }
-	          					
-            	
-            	
 				$( ".btn-primary").on("click" , function() {
 					//Debug..
 					//alert(  $( this ).text().trim() );
@@ -297,7 +323,7 @@ $(function(){
 			    <form class="form-inline" name="detailForm">
 			    
 				  <div class="form-group">
-				    <select class="form-control" name="searchCondition" >
+				    <select class="form-control" name="searchCondition"  id="searchCondition">
 				    	<option value="0" ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>
 						<option value="1" ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
 						<option value="2" ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>상품가격</option>
@@ -335,18 +361,12 @@ $(function(){
         	<h3>${product.prodName}</h3>
         	
 				<c:choose>
-					<c:when test= "${product.proTranCode=='0'}">
+					<c:when test= "${product.proTranCode=='0'||product.proTranCode==null}">
 						판매중
 					</c:when>
-					<c:when test= "${product.proTranCode=='1'}">
-						구매완료 	
-					</c:when>
-					<c:when test= "${product.proTranCode=='2' }">
-						배송중
-					</c:when>
-					<c:when test= "${product.proTranCode=='3'}">
-						배송완료
-					</c:when>
+					<c:otherwise>
+						판매완료
+					</c:otherwise>
 				</c:choose>
         	
         	<p><a href="#" class="btn btn-primary" role="button">상세보기<input type = 'hidden' id= "prodNo" name = 'prodNo' value='${product.prodNo}'/></a> 
