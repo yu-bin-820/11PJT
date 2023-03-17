@@ -43,7 +43,7 @@
 			 $( "button.btn.btn-primary" ).on("click" , function() {
 				//Debug..
 				//alert(  $( "td.ct_btn01:contains('확인')" ).html() );
-				history.go(-2);
+				 self.location = "/purchase/listPurchase"
 			});
 			
 			 $( "a[href='#' ]").on("click" , function() {
@@ -139,10 +139,37 @@
 		
 		<hr/>
 		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>배송 현황</strong></div>
+	  		<div class="col-xs-8 col-md-4">${purchase.tranCode}
+	  		<c:choose>
+	  			<c:when test="${purchase.tranCode == '1' }">
+	  				상품 준비중
+	  			</c:when>
+	  			<c:when test="${purchase.tranCode == '2' }">
+	  				상품 배송중
+	  				<button class="btn btn-danger">
+						<input type= 'hidden' id="tranNo" name="tranNo" value='${purchase.tranNo}'/>
+						물건도착
+					</button>
+	  			</c:when>
+	  			<c:when test="${purchase.tranCode == '3' }">
+	  				상품 배송완료
+	  			</c:when>
+	  		</c:choose>	  			
+	  		</div>
+		</div>
+		
+		<hr/>
+		
+		
+		
 		<div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
 		      <button type="button" class="btn btn-primary"  >확 &nbsp;인</button>
-			  <a class="btn btn-primary btn" href="#" role="button">수 &nbsp;정</a>
+		      <c:if test="${purchase.tranCode == '1'}">
+			  	<a class="btn btn-primary btn" href="#" role="button">수 &nbsp;정</a>
+			  </c:if>
 		    </div>
 		  </div>
 		</form>
