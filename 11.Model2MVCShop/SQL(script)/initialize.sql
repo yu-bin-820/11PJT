@@ -1,14 +1,19 @@
 
+DROP TABLE anser;
+DROP TABLE inquiry;
 DROP TABLE transaction;
 DROP TABLE product;
 DROP TABLE users;
 
 DROP SEQUENCE seq_product_prod_no;
 DROP SEQUENCE seq_transaction_tran_no;
+DROP SEQUENCE seq_inquiry_inquiry_no;
 
 
 CREATE SEQUENCE seq_product_prod_no	 	INCREMENT BY 1 START WITH 10000;
 CREATE SEQUENCE seq_transaction_tran_no	INCREMENT BY 1 START WITH 10000;
+CREATE SEQUENCE seq_inquiry_inquiry_no	INCREMENT BY 1 START WITH 10000;
+
 
 
 CREATE TABLE users ( 
@@ -49,6 +54,26 @@ CREATE TABLE transaction (
 	order_data 				DATE,
 	dlvy_date 				DATE,
 	PRIMARY KEY(tran_no)
+);
+
+CREATE TABLE inpuiry ( 
+	inquiry_no 			NUMBER 			NOT NULL,
+	tran_no 			NUMBER(16)		NOT NULL REFERENCES transaction(tran_no),
+	user_id 			VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
+	inquiery_option		CHAR(3),
+	title 		VARCHAR2(100),
+	context		VARCHAR2(300),
+	answer_status 		CHAR(3),
+	post_date 		DATE,
+	PRIMARY KEY(inquiry_no)
+);
+
+CREATE TABLE answer ( 
+	inquiry_no 			NUMBER(16)		NOT NULL REFERENCES inpuiry(inquiry_no),
+	title		VARCHAR2(100)	NOT NULL,
+	content		VARCHAR2(300),
+	post_date  		DATE,
+	PRIMARY KEY(inquiry_no)
 );
 
 
