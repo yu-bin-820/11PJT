@@ -83,6 +83,8 @@
 	                     </ul>
 	                 </li>
 	                 
+	                 <li><a href="#">문의</a></li>
+	                 
 	                 <li><a href="#">etc...</a></li>
 	             </ul>
 	             
@@ -149,6 +151,13 @@
 		$( function() {
 		 	$("a[href='#' ]:contains('구매이력조회')").on("click" , function() {
 		 		self.location = "/purchase/listPurchase"
+			}); 
+		});
+		
+		//============= 구매이력조회 화면이동 =============
+		$( function() {
+		 	$("a[href='#' ]:contains('문의')").on("click" , function() {
+		 		self.location = "/inquiry/listInquiry"
 			}); 
 		});
 		

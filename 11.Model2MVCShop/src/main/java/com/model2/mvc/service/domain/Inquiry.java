@@ -5,8 +5,9 @@ import java.sql.Date;
 
 public class Inquiry {
 	
-	private User inquirerId;
-	private Purchase purchaseNo;
+	private User inquirer;
+	private Purchase inquiryyPurchase;
+	private Product inquiryProd;
 	private int inquiryNo;
 	private String inquiryOption;
 	private String title;
@@ -17,25 +18,42 @@ public class Inquiry {
 	public Inquiry(){
 	}
 	
-	
-	public User getInquirerId() {
-		return inquirerId;
+
+
+	public User getInquirer() {
+		return inquirer;
 	}
 
 
-	public void setInquirerId(User userId) {
-		this.inquirerId = userId;
+
+	public void setInquirer(User inquirer) {
+		this.inquirer = inquirer;
 	}
 
 
-	public Purchase getPurchaseNo() {
-		return purchaseNo;
+
+	public Purchase getInquiryyPurchase() {
+		return inquiryyPurchase;
 	}
 
 
-	public void setPurchaseNo(Purchase purchaseNo) {
-		this.purchaseNo = purchaseNo;
+
+	public void setInquiryyPurchase(Purchase inquiryyPurchase) {
+		this.inquiryyPurchase = inquiryyPurchase;
 	}
+
+
+
+	public Product getInquiryProd() {
+		return inquiryProd;
+	}
+
+
+
+	public void setInquiryProd(Product inquiryProd) {
+		this.inquiryProd = inquiryProd;
+	}
+
 
 
 	public int getInquiryNo() {
@@ -116,13 +134,15 @@ public class Inquiry {
 
 
 
-
 	@Override
 	public String toString() {
-		return "Inquiry [userId=" + inquirerId + ", purchaseNo=" + purchaseNo + ", inquiryNo=" + inquiryNo
-				+ ", inquiryOption=" + inquiryOption + ", inquiryTitle=" + title + ", inquiryContent="
-				+ content + ", answerStatus=" + answerStatus + ", postDate=" + postDate + "]";
+		return "Inquiry [inquirer=" + inquirer + ", inquiryyPurchase=" + inquiryyPurchase + ", inquiryProd="
+				+ inquiryProd + ", inquiryNo=" + inquiryNo + ", inquiryOption=" + inquiryOption + ", title=" + title
+				+ ", content=" + content + ", answerStatus=" + answerStatus + ", postDate=" + postDate + "]";
 	}
+
+
+
 	
 
 }

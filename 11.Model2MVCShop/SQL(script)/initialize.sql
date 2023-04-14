@@ -1,5 +1,5 @@
 
-DROP TABLE anser;
+DROP TABLE answer;
 DROP TABLE inquiry;
 DROP TABLE transaction;
 DROP TABLE product;
@@ -56,11 +56,12 @@ CREATE TABLE transaction (
 	PRIMARY KEY(tran_no)
 );
 
-CREATE TABLE inpuiry ( 
+CREATE TABLE inquiry ( 
 	inquiry_no 			NUMBER 			NOT NULL,
-	tran_no 			NUMBER(16)		NOT NULL REFERENCES transaction(tran_no),
+	tran_no 			NUMBER(16)		REFERENCES transaction(tran_no),
+	prod_no				NUMBER(16)		REFERENCES product(prod_no),
 	user_id 			VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
-	inquiery_option		CHAR(3),
+	inquiry_option		CHAR(4),
 	title 		VARCHAR2(100),
 	context		VARCHAR2(300),
 	answer_status 		CHAR(3),
@@ -69,7 +70,7 @@ CREATE TABLE inpuiry (
 );
 
 CREATE TABLE answer ( 
-	inquiry_no 			NUMBER(16)		NOT NULL REFERENCES inpuiry(inquiry_no),
+	inquiry_no 			NUMBER(16)		NOT NULL REFERENCES inquiry(inquiry_no),
 	title		VARCHAR2(100)	NOT NULL,
 	content		VARCHAR2(300),
 	post_date  		DATE,

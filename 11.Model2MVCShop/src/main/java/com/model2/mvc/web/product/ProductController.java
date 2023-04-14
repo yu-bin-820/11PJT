@@ -60,10 +60,11 @@ public class ProductController {
 							  Model model ) throws Exception {
 		
 		System.out.println("/product/addProduct : POST");
-		String uploadFolder = "C:\\Users\\majja\\git\\11PJT\\11.Model2MVCShop\\src\\main\\webapp\\images\\uploadFiles";
+		String uploadFolder = "/Users/yoobinjeon/git/11PJT/11.Model2MVCShop/src/main/webapp/images/uploadFiles";
 		
 		
-		
+	if(!(file.isEmpty())) {
+		System.out.println("아무거나");
 			File saveFile = new File(uploadFolder, file.getOriginalFilename());
 			
 			
@@ -73,7 +74,9 @@ public class ProductController {
 		
 		
 		product.setFileName(file.getOriginalFilename());
-		
+	} else {
+		product.setFileName("Noimg.jpg");
+	}
 		
 		product.setManuDate(product.getManuDate().replaceAll("-", ""));
 		

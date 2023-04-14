@@ -34,7 +34,15 @@
    	</style>
    	
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
-	 	
+	 		<script type="text/javascript">
+			
+		 $(function() {
+			 $( "button" ).on("click" , function() {
+			 		self.location = "../map/map.jsp"
+				});
+		});
+		
+	</script>
 	
 </head>
 	
@@ -63,6 +71,12 @@
          <p>좋아하는 일을 하는 것이 아리라,</p>
          <p>지금 하는 일을 좋아하는 것입니다.</p>
   	 </div>
+  	 
+  	 		<div class="row">
+	  		<div class="col-md-12 text-center ">
+	  			<button type="button" class="btn btn-primary">간단한지도보기</button>
+	  		</div>
+		</div>
 
 </body>
 

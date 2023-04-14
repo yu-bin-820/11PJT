@@ -8,14 +8,78 @@
  	
  	
 	<resultMap id="inquirySelectMap" type="inquiry">
-		<result property="inquiryNo" 			column="inquiry_no" 		jdbcType="INTEGER"/>
-		<result property="purchaseNo.tranNo"	column="tran_no" 			jdbcType="INTEGER" />
-		<result property="inquirerId.userId" 	column="user_id" 		jdbcType="VARCHAR" />
-		<result property="inquiryOption" 		column="inquiery_option" 	jdbcType="VARCHAR" />
-		<result property="title" 				column="title" 		jdbcType="VARCHAR" />
-		<result property="content" 				column="context" 	jdbcType="VARCHAR" />
-		<result property="answerStatus" 		column="answer_status" 		jdbcType="VARCHAR" />
-		<result property="postDate" 			column="post_date" 		jdbcType="DATE" />
+		<result property="inquiryNo" 				column="inquiry_no" 		jdbcType="INTEGER"/>
+		<result property="inquiryyPurchase.tranNo"	column="tran_no" 			jdbcType="INTEGER" />
+		<result property="inquiryProd.prodNo"		column="prod_no" 			jdbcType="INTEGER" />
+		<result property="inquirer.userId" 			column="user_id" 			jdbcType="VARCHAR" />
+		<result property="inquiryOption" 			column="inquiry_option" 	jdbcType="VARCHAR" />
+		<result property="title" 					column="title" 				jdbcType="VARCHAR" />
+		<result property="content" 					column="context" 			jdbcType="VARCHAR" />
+		<result property="answerStatus" 			column="answer_status" 		jdbcType="VARCHAR" />
+		<result property="postDate" 				column="post_date" 			jdbcType="DATE" />
 	</resultMap>
+	
+		 
+	<!-- SQL : SELECT LIST -->
+	<select  id="getInquiryList"  parameterType="search"	resultMap="inquirySelectMap">
+	  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT inquiry_no , TRIM(NVL(inquiry_option,0)) inquiry_option, title , post_date ,  TRIM(NVL(answer_status,0)) answer_status, user_id
+											FROM inquiry
+											<where>
+											user_id=#{userId}
+											<if test="searchCondition != null">
+													<if test="searchCondition == 0 and searchKeyword !='' ">
+										 				and inquiery_option = '${searchKeyword}'
+													</if>
+													<if test="searchCondition == 1 and searchKeyword !='' ">
+										 				and answer_status = '${searchKeyword}'
+													</if>
+											</if>
+											</where>
+											ORDER BY post_date ) inner_table
+						WHERE ROWNUM &lt;= #{endRowNum} )
+		WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
+	 </select>
+	 
+	 
+	 	<!--  위 두번째 subQuery 의  
+	 			WHERE ROWNUM &lt;= #{endRowNum} ) 는
+	 			WHERE ROWNUM <= #{endRowNum} ) 의미이며..
+	 			< 는 keyword 로 &lt; 를	사용.
+	 			
+	 			<![CDATA[  ~~~  ]]> 를 이용하여 아래와 같이 사용  할 수 있다.
+	 			CDATA ==> Character Data 의 의미 Java 에서 \n 같은 특수문자 처리  
+
+				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
+					  	SELECT *
+	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
+	  					FROM		(	SELECT inquiry_no , TRIM(NVL(inquiry_option,0)) inquiry_option, title , post_date ,  TRIM(NVL(answer_status,0)) answer_status
+											FROM inquiry
+											user_id='admin'
+											ORDER BY post_date ) inner_table
+						WHERE ROWNUM <= 5 )
+		WHERE row_seq BETWEEN 1 AND 5
+		-->
+	
+	<!-- SQL : SELECT ROW Count -->	 
+	 <select  id="getTotalCount"  parameterType="search"	 resultType="int">
+	  	SELECT COUNT(*)
+	  		FROM	(	SELECT inquiry_no , TRIM(NVL(inquiery_option,0)) inquiery_option, title , post_date ,  TRIM(NVL(answer_status,0)) answer_status, inquirer.userId
+						FROM inquiry
+						<if test="searchCondition != null">
+							<where>
+							user_id=#{userId}
+								<if test="searchCondition == 0 and searchKeyword !='' ">
+									inquiery_option = '${searchKeyword}%'
+								</if>
+								<if test="searchCondition == 1 and searchKeyword !='' ">
+									answer_status = '${searchKeyword}%'
+								</if>
+							</where>
+						</if> ) countTable						
+	 </select>
+	 
+
 
 </mapper>	
